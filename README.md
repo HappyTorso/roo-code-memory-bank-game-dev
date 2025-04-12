@@ -6,9 +6,9 @@
 
 ## New install scripts for [Windows](https://github.com/GreatScottyMac/roo-code-memory-bank/blob/main/config/install.cmd) and [Linux/macOS](https://github.com/GreatScottyMac/roo-code-memory-bank/blob/main/config/install.sh) !!
 
-# 🧠 Roo Code Memory Bank
+# 🧠 Roo Code Memory Bank - Game Development Edition
 
-**Persistent Project Context for AI-Assisted Development**
+**Persistent Project Context for AI-Assisted Game Development**
 
 [![VS Code Extension](https://img.shields.io/badge/VS%20Code-Extension-blue.svg)](https://github.com/RooVetGit/Roo-Code)
 [![GitHub](https://img.shields.io/badge/View%20on-GitHub-lightgrey.svg)](https://github.com/GreatScottyMac/roo-code-memory-bank)
@@ -17,7 +17,7 @@
 
 ## 🎯 Overview
 
-Roo Code Memory Bank solves a critical challenge in AI-assisted development: **maintaining context across sessions**. By providing a structured memory system integrated with VS Code, it ensures your AI assistant maintains a deep understanding of your project across sessions.
+Roo Code Memory Bank (Game Dev Edition) solves a critical challenge in AI-assisted game development: **maintaining context across sessions**. By providing a structured memory system integrated with VS Code, adapted for game development workflows, it ensures your AI assistant maintains a deep understanding of your game project across sessions.
 
 ### Key Components
 
@@ -29,10 +29,10 @@ graph LR
     B --> E[Project Context]
     B --> F[Decisions]
     B --> G[Progress]
-    C --> H[Architect]
-    C --> I[Code]
-    C --> J[Ask]
-    C --> K1[Debug]
+    C --> H[Architect / Game PM]
+    C --> I[Code / Programmer]
+    C --> J[Ask / Documentation]
+    C --> K1[Debug / Debugger]
     C --> K2[Test]
     K[Real-time Updates] --> B
     K --> L[Continuous Sync]
@@ -50,39 +50,43 @@ graph LR
 ### 1. Configure Custom Instructions
 
 #### The easiest way to set up the necessary configuration files is using the provided install scripts.
+
 **Prerequisite: Install Git:** The installation script requires `git` to be installed and accessible in your system's PATH. Download Git from [https://git-scm.com/downloads](https://git-scm.com/downloads).
 
 #### Download and Run Install Script
 
 1.  **Open your terminal** and navigate (`cd`) to your project's **root directory**.
 2.  **Download and run the appropriate script** for your operating system using one of the commands below:
-    *   **Windows (Command Prompt or PowerShell):**
-        ```cmd
-        curl -L -o install.cmd https://raw.githubusercontent.com/GreatScottyMac/roo-code-memory-bank/main/config/install.cmd && cmd /c install.cmd
-        ```
-    *   **Linux / macOS (bash/zsh):**
-        ```bash
-        curl -L -o install.sh https://raw.githubusercontent.com/GreatScottyMac/roo-code-memory-bank/main/config/install.sh && chmod +x install.sh && bash install.sh
-        ```
-    The script will download the necessary `.roorules-*`, `.roomodes`, and helper files into your project root, inject the workspace path into `.roorules-test`, and then attempt to delete the installation and helper scripts.
+    - **Windows (Command Prompt or PowerShell):**
+      ```cmd
+      curl -L -o install.cmd https://raw.githubusercontent.com/[YOUR_GITHUB_USERNAME_OR_ORG]/roo-code-memory-bank-game-dev/main/config/install.cmd && cmd /c install.cmd REM IMPORTANT: Replace placeholder!
+      ```
+    - **Linux / macOS (bash/zsh):**
+      `bash
+    curl -L -o install.sh https://raw.githubusercontent.com/[YOUR_GITHUB_USERNAME_OR_ORG]/roo-code-memory-bank-game-dev/main/config/install.sh && chmod +x install.sh && bash install.sh REM IMPORTANT: Replace placeholder!
+    `
+      The script will download the necessary game-dev adapted `.roorules-*`, `.roomodes`, and helper files into your project root, inject the workspace path into `.roorules-test`, and then attempt to delete the installation and helper scripts.
 
 #### b. Configure Roo Code Prompt Settings
-> ⚠️ **Important**: The system default descriptions in the Role Definition boxes can remain but leave the Mode-specific Custom Instructions boxes empty.  
+
+> ⚠️ **Important**: The system default descriptions in the Role Definition boxes can remain but leave the **Mode-specific Custom Instructions** boxes empty. The core logic resides in the `.roorules-*` files downloaded by the script; custom instructions here can conflict.
 
 ### 2. Initialize Memory Bank
 
-1. Switch to **Architect** or **Code** mode in Roo Code chat
+1. Switch to **Architect (Game PM)** or **Code (Programmer)** mode in Roo Code chat
 2. Send a message (e.g., "hello")
 3. Roo will automatically:
    - 🔍 Scan for `memory-bank/` directory
    - 📁 Create it if missing (with your approval)
-   - 📝 Initialize core files
+   - 📝 Initialize core files (including `issuesLog.md` and `gameDesignDoc.md`)
+   - ❓ Prompt for essential environment details (Engine, Version, Language, VCS) if missing from `productContext.md`.
    - 🚦 Provide next steps
 
 <details>
 <summary>💡 Pro Tip: Project Brief</summary>
 
 Create a `projectBrief.md` in your project root **before** initialization to give Roo immediate project context.
+
 </details>
 
 ### File Organization
@@ -100,7 +104,9 @@ project-root/
 │   ├── activeContext.md
 │   ├── productContext.md
 │   ├── progress.md
-│   └── decisionLog.md
+│   ├── decisionLog.md
+│   ├── issuesLog.md (NEW)
+│   └── gameDesignDoc.md (NEW)
 └── projectBrief.md
 ```
 
@@ -112,16 +118,20 @@ graph TD
     MB --> DL[decisionLog.md]
     MB --> PC[productContext.md]
     MB --> PR[progress.md]
+    MB --> IL[issuesLog.md]:::new
+    MB --> GDD[gameDesignDoc.md]:::new
     MB --> PB[projectBrief.md]
     MB --> SP[systemPatterns.md]
-    
+
     subgraph Core Files
         AC[Current Session State]
         DL[Technical Decisions]
         PC[Project Overview]
         PR[Progress Tracking]
+        IL[Issue Tracking]
+        GDD[Game Design Details]
     end
-    
+
     subgraph Optional
         PB[Project Brief]
         SP[System Patterns]
@@ -131,32 +141,36 @@ graph TD
 <details>
 <summary>📖 View File Descriptions</summary>
 
-| File | Purpose |
-|------|----------|
-| `activeContext.md` | Tracks current goals, decisions, and session state |
-| `decisionLog.md` | Records architectural choices and their rationale |
-| `productContext.md` | Maintains high-level project context and knowledge |
-| `progress.md` | Documents completed work and upcoming tasks |
-| `projectBrief.md` | Contains initial project requirements (optional) |
-| `systemPatterns.md` | Documents recurring patterns and standards |
+| File                | Purpose                                                                          |
+| ------------------- | -------------------------------------------------------------------------------- |
+| `activeContext.md`  | Tracks current goals, decisions, session state, and failure counters             |
+| `decisionLog.md`    | Records architectural choices and their rationale                                |
+| `productContext.md` | Maintains high-level project context, goals, and **environment/engine details**  |
+| `progress.md`       | Documents completed work and upcoming tasks                                      |
+| `issuesLog.md`      | **NEW:** Tracks reported issues, investigation, and resolution status            |
+| `gameDesignDoc.md`  | **NEW:** Stores detailed game design specifications (mechanics, narrative, etc.) |
+| `projectBrief.md`   | Contains initial project requirements (optional)                                 |
+| `systemPatterns.md` | Documents recurring patterns and standards (optional)                            |
 
 </details>
 
 ## ✨ Features
 
 ### 🧠 Persistent Context
+
 - Remembers project details across sessions
 - Maintains consistent understanding of your codebase
 - Tracks decisions and their rationale
 
 ### 🔄 Smart Workflows
+
 ```mermaid
 graph LR
-    A[Architect Mode] -->|Real-time Design Updates| B[Memory Bank]
-    C[Code Mode] -->|Real-time Implementation| B
-    D[Ask Mode] -->|Real-time Insights| B
-    F[Debug Mode] -->|Real-time Analysis| B
-    G[Test Mode] -->|Real-time Testing| B
+    A[Architect / Game PM] -->|Coordination & Design| B[Memory Bank]
+    C[Code / Programmer] -->|Implementation & Fixes| B
+    D[Ask / Documentation] -->|Knowledge & Search| B
+    F[Debug / Debugger] -->|Investigation & Logging| B
+    G[Test Mode] -->|Validation & QA| B
     B -->|Instant Context| A
     B -->|Instant Context| C
     B -->|Instant Context| D
@@ -164,11 +178,13 @@ graph LR
     B -->|Instant Context| G
     E[Event Monitor] -->|Continuous Sync| B
 ```
+
 - Mode-based operation for specialized tasks
 - Automatic context switching
 - Project-specific customization via rules
 
 ### 📊 Knowledge Management
+
 - Structured documentation with clear purposes
 - Technical decision tracking with rationale
 - Automated progress monitoring
@@ -176,10 +192,12 @@ graph LR
 
 ## 💡 Pro Tips
 
-### Architect Mode
-Roo Code Memory Bank's Architect mode is designed for high-level system design and project organization. This mode focuses on architectural decisions, system structure, and maintaining project-wide consistency.
+### Architect (Game PM) Mode
+
+This mode acts as the **Game Project Manager (Game PM)** and technical architect. It focuses on high-level system design, project organization, task oversight, validation coordination, handling escalations, and managing architectural integrity.
 
 #### Key Capabilities
+
 - 🏗️ **System Design**: Create and maintain architecture
 - 📐 **Pattern Definition**: Establish coding patterns and standards
 - 🔄 **Project Structure**: Organize code and resources
@@ -187,7 +205,9 @@ Roo Code Memory Bank's Architect mode is designed for high-level system design a
 - 🤝 **Team Collaboration**: Guide implementation standards
 
 #### Real-time Update Triggers
+
 Architect mode actively monitors and updates Memory Bank files based on:
+
 - 🎯 Architectural decisions and changes
 - 📊 System pattern definitions
 - 🔄 Project structure updates
@@ -195,6 +215,7 @@ Architect mode actively monitors and updates Memory Bank files based on:
 - ⚡ Implementation guidance needs
 
 #### Memory Bank Integration
+
 ```mermaid
 graph TD
     A[Architect Mode] --> B[Design Decisions]
@@ -209,17 +230,21 @@ graph TD
     G --> J[Design Decisions]
 ```
 
-Switch to Architect mode when you need to:
-- Design system architecture
-- Define coding patterns
-- Structure new projects
-- Guide implementations
-- Make architectural decisions
+Switch to Architect (Game PM) mode when you need to:
 
-### Code Mode
-Roo Code Memory Bank's Code mode is your primary interface for implementation and development. This mode specializes in writing, modifying, and maintaining code while following established patterns.
+- Initialize the project Memory Bank & gather environment details
+- Define overall architecture and system design
+- Plan features and track progress
+- Validate completed tasks
+- Handle recurring failures or architectural review requests
+- Make high-level decisions
+
+### Code (Programmer) Mode
+
+This mode acts as the **Game Programmer**. It's the primary interface for implementation, writing/modifying code based on design docs and issue logs, adding code documentation, and requesting user testing for validation.
 
 #### Key Capabilities
+
 - 💻 **Code Creation**: Write new code and features
 - 🔧 **Code Modification**: Update existing implementations
 - 📚 **Documentation**: Add code comments and docs
@@ -227,7 +252,9 @@ Roo Code Memory Bank's Code mode is your primary interface for implementation an
 - 🔄 **Refactoring**: Improve code structure
 
 #### Real-time Update Triggers
+
 Code mode actively monitors and updates Memory Bank files based on:
+
 - 📝 Code implementations
 - 🔄 Feature updates
 - 🎯 Pattern applications
@@ -235,6 +262,7 @@ Code mode actively monitors and updates Memory Bank files based on:
 - 📚 Documentation updates
 
 #### Memory Bank Integration
+
 ```mermaid
 graph TD
     A[Code Mode] --> B[Implementation]
@@ -249,17 +277,20 @@ graph TD
     G --> J[Implementation Decisions]
 ```
 
-Switch to Code mode when you need to:
-- Implement new features
-- Modify existing code
-- Add documentation
-- Apply coding patterns
-- Refactor code
+Switch to Code (Programmer) mode when you need to:
 
-### Ask Mode
-Roo Code Memory Bank's Ask mode serves as your knowledge base interface and documentation assistant. This mode excels at providing information, explaining concepts, and maintaining project knowledge.
+- Implement features based on `gameDesignDoc.md`
+- Fix bugs based on `issuesLog.md`
+- Write or modify game scripts and code
+- Add code-level documentation
+- Refactor existing code (potentially triggering architectural review)
+
+### Ask (Documentation & Knowledge) Mode
+
+This mode acts as the **Game Documentation & Knowledge** assistant. It answers questions about game design, issues, code, and concepts by reading the Memory Bank. It can also perform web searches for documentation or general information when requested.
 
 #### Key Capabilities
+
 - 💡 **Knowledge Sharing**: Access project insights
 - 📚 **Documentation**: Create and update docs
 - 🔍 **Code Explanation**: Clarify implementations
@@ -267,7 +298,9 @@ Roo Code Memory Bank's Ask mode serves as your knowledge base interface and docu
 - 📖 **Pattern Education**: Explain system patterns
 
 #### Real-time Update Triggers
+
 Ask mode actively monitors and updates Memory Bank files based on:
+
 - ❓ Knowledge requests
 - 📝 Documentation needs
 - 🔄 Pattern explanations
@@ -275,6 +308,7 @@ Ask mode actively monitors and updates Memory Bank files based on:
 - 📚 Learning outcomes
 
 #### Memory Bank Integration
+
 ```mermaid
 graph TD
     A[Ask Mode] --> B[Knowledge Sharing]
@@ -289,17 +323,20 @@ graph TD
     G --> J[Knowledge Decisions]
 ```
 
-Switch to Ask mode when you need to:
-- Understand code patterns
-- Get implementation guidance
-- Create documentation
-- Share knowledge
-- Learn system concepts
+Switch to Ask (Documentation & Knowledge) mode when you need to:
 
-### Debug Mode
-Roo Code Memory Bank's Debug mode specializes in systematic problem-solving and troubleshooting. This mode employs strategic analysis and verification to identify and resolve issues.
+- Understand game mechanics from `gameDesignDoc.md`
+- Check the status or details of a bug in `issuesLog.md`
+- Get explanations of code or architectural patterns
+- Request web searches for external documentation or tutorials
+- Ask general questions about the project context
+
+### Debug (Debugger) Mode
+
+This mode acts as the **Game Debugger**. It specializes in investigating issues logged in `issuesLog.md`, analyzing errors, finding root causes (potentially using web search for technical errors), and documenting findings in the log.
 
 #### Key Capabilities
+
 - 🔍 **Issue Investigation**: Analyze problems systematically
 - 📊 **Error Analysis**: Track error patterns
 - 🎯 **Root Cause Finding**: Identify core issues
@@ -307,7 +344,9 @@ Roo Code Memory Bank's Debug mode specializes in systematic problem-solving and 
 - 📝 **Problem Documentation**: Record findings
 
 #### Real-time Update Triggers
+
 Debug mode actively monitors and updates Memory Bank files based on:
+
 - 🐛 Bug discoveries
 - 📈 Performance issues
 - 🔄 Error patterns
@@ -315,6 +354,7 @@ Debug mode actively monitors and updates Memory Bank files based on:
 - 📝 Fix verifications
 
 #### Memory Bank Integration
+
 ```mermaid
 graph TD
     A[Debug Mode] --> B[Investigation]
@@ -329,17 +369,20 @@ graph TD
     G --> J[Solution Decisions]
 ```
 
-Switch to Debug mode when you need to:
-- Investigate issues
-- Analyze errors
-- Find root causes
-- Verify fixes
-- Document problems
+Switch to Debug (Debugger) mode when you need to:
+
+- Investigate a specific issue from `issuesLog.md`
+- Analyze runtime errors or unexpected behavior
+- Find the root cause of a bug
+- Document investigation steps and findings in `issuesLog.md`
+- Perform targeted web searches for specific technical errors
 
 ### Test Mode
-Roo Code Memory Bank includes a powerful Test mode for test-driven development and quality assurance. This mode operates with a focus on test creation, execution, and validation while maintaining code quality.
+
+This mode focuses on test creation (TDD), execution, and reporting. It validates code changes, checks for regressions, and can update the validation status of fixes in `issuesLog.md`.
 
 #### Key Capabilities
+
 - 🧪 **Test-Driven Development**: Write tests before implementation
 - 📊 **Test Execution**: Run and monitor test suites
 - 🔍 **Coverage Analysis**: Track and improve test coverage
@@ -347,7 +390,9 @@ Roo Code Memory Bank includes a powerful Test mode for test-driven development a
 - ✅ **Test Result Management**: Track and report test outcomes
 
 #### Real-time Update Triggers
+
 Test mode actively monitors and updates Memory Bank files based on:
+
 - 🔄 Test executions and results
 - 📈 Coverage metrics and gaps
 - 🐛 Test failure patterns
@@ -355,6 +400,7 @@ Test mode actively monitors and updates Memory Bank files based on:
 - 📝 Test documentation needs
 
 #### Memory Bank Integration
+
 ```mermaid
 graph TD
     A[Test Mode] --> B[Test Creation]
@@ -370,13 +416,15 @@ graph TD
 ```
 
 Switch to Test mode when you need to:
-- Write new tests
-- Run test suites
+
+- Write unit, integration, or other automated tests
+- Run test suites against new features or bug fixes
 - Analyze test coverage
-- Validate code quality
-- Document test results
+- Provide automated validation results to the Architect/Game PM
+- Update `issuesLog.md` validation status for tested fixes
 
 ### Session Management
+
 - ⚡ **Real-time Updates**: Memory Bank automatically stays synchronized with your work
 - 💾 **Manual Updates**: Use "UMB" or "update memory bank" as a fallback when:
   - Ending a session unexpectedly

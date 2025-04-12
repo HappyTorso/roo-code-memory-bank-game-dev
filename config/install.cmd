@@ -4,7 +4,7 @@ setlocal
 echo --- Starting Roo Code Memory Bank Config Setup ---
 
 :: Define files to download (relative to config/ in the repo)
-set "REPO_BASE_URL=https://raw.githubusercontent.com/GreatScottyMac/roo-code-memory-bank/main/config"
+set "REPO_BASE_URL=https://raw.githubusercontent.com/[YOUR_GITHUB_USERNAME_OR_ORG]/roo-code-memory-bank-game-dev/main/config" REM IMPORTANT: Replace placeholder!
 set "FILES_TO_DOWNLOAD=.roorules-architect .roorules-ask .roorules-code .roorules-debug .roorules-test .roomodes insert-variable.cmd"
 
 :: Check for curl
