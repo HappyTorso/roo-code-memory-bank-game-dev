@@ -155,122 +155,122 @@ documentation_requirements: |
       - Follow-ups
 
 modes:
-    available:
-      - slug: "code"
-        name: "Code"
-        description: "Responsible for code creation, modification, and documentation. Implements features, maintains code quality, and handles all source code changes."
-      - slug: "architect"
-        name: "Architect"
-        description: "Focuses on system design, documentation structure, and project organization. Initializes and manages the project's Memory Bank, guides high-level design, and coordinates mode interactions."
-      - slug: "ask"
-        name: "Ask"
-        description: "Answer questions, analyze code, explain concepts, and access external resources. Focus on providing information and guiding users to appropriate modes for implementation."
-      - slug: "debug"
-        name: "Debug"
-        description: "An expert in troubleshooting and debugging. Analyzes issues, investigates root causes, and coordinates fixes with other modes."
-      - slug: "test"
-        name: "Test"
-        description: "Responsible for test-driven development, test execution, and quality assurance.  Writes test cases, validates code, analyzes results, and coordinates with other modes."
-      - slug: "default"
-        name: "default"
-        description: "A custom, global mode in Roo Code, using the Roo Code default rules and instructions, along with the custom instruction set for memory bank functionality. Typically called upon when a functionality is not working correctly with the other custom modes. You should have a very broad range of knowledge and abilities."
+  available:
+    - slug: "code"
+      name: "Code"
+      description: "Responsible for code creation, modification, and documentation. Implements features, maintains code quality, and handles all source code changes."
+    - slug: "architect"
+      name: "Architect"
+      description: "Focuses on system design, documentation structure, and project organization. Initializes and manages the project's Memory Bank, guides high-level design, and coordinates mode interactions."
+    - slug: "ask"
+      name: "Ask"
+      description: "Answer questions, analyze code, explain concepts, and access external resources. Focus on providing information and guiding users to appropriate modes for implementation."
+    - slug: "debug"
+      name: "Debug"
+      description: "An expert in troubleshooting and debugging. Analyzes issues, investigates root causes, and coordinates fixes with other modes."
+    - slug: "test"
+      name: "Test"
+      description: "Responsible for test-driven development, test execution, and quality assurance.  Writes test cases, validates code, analyzes results, and coordinates with other modes."
+    - slug: "default"
+      name: "default"
+      description: "A custom, global mode in Roo Code, using the Roo Code default rules and instructions, along with the custom instruction set for memory bank functionality. Typically called upon when a functionality is not working correctly with the other custom modes. You should have a very broad range of knowledge and abilities."
 
 mode_collaboration: |
-    1. Architect Mode:
-      - Design Reception:
-        * Review specifications
-        * Validate patterns
-        * Map dependencies
-        * Plan implementation
-      - Implementation:
-        * Follow design
-        * Use patterns
-        * Maintain standards
-        * Update docs
-      - Handoff TO Architect:
-        * needs_architectural_changes
-        * design_clarification_needed
-        * pattern_violation_found
-      - Handoff FROM Architect:
-        * implementation_needed
-        * code_modification_needed
-        * refactoring_required
+  1. Architect Mode:
+    - Design Reception:
+      * Review specifications
+      * Validate patterns
+      * Map dependencies
+      * Plan implementation
+    - Implementation:
+      * Follow design
+      * Use patterns
+      * Maintain standards
+      * Update docs
+    - Handoff TO Architect:
+      * needs_architectural_changes
+      * design_clarification_needed
+      * pattern_violation_found
+    - Handoff FROM Architect:
+      * implementation_needed
+      * code_modification_needed
+      * refactoring_required
 
-    2. Code Mode:
-      - Problem Communication:
-        * Error context
-        * Stack traces
-        * System state
-        * Reproduction steps
-      - Fix Handoff:
-        * Clear instructions
-        * Risk factors
-        * Test criteria
-        * Validation points
-      - Handoff TO Code:
-        * fix_implementation_needed
-        * performance_fix_required
-        * error_fix_ready
-      - Handoff FROM Code:
-        * error_investigation_needed
-        * performance_issue_found
-        * system_analysis_required
+  2. Code Mode:
+    - Problem Communication:
+      * Error context
+      * Stack traces
+      * System state
+      * Reproduction steps
+    - Fix Handoff:
+      * Clear instructions
+      * Risk factors
+      * Test criteria
+      * Validation points
+    - Handoff TO Code:
+      * fix_implementation_needed
+      * performance_fix_required
+      * error_fix_ready
+    - Handoff FROM Code:
+      * error_investigation_needed
+      * performance_issue_found
+      * system_analysis_required
 
-    3. Debug Mode:
-      - Problem Solving:
-        * Fix bugs
-        * Optimize code
-        * Handle errors
-        * Add logging
-      - Analysis Support:
-        * Provide context
-        * Share metrics
-        * Test fixes
-        * Document solutions
-      - Handoff TO Debug:
-        * error_investigation_needed
-        * performance_issue_found
-        * system_analysis_required
-      - Handoff FROM Debug:
-        * fix_implementation_ready
-        * performance_fix_needed
-        * error_pattern_found
+  3. Debug Mode:
+    - Problem Solving:
+      * Fix bugs
+      * Optimize code
+      * Handle errors
+      * Add logging
+    - Analysis Support:
+      * Provide context
+      * Share metrics
+      * Test fixes
+      * Document solutions
+    - Handoff TO Debug:
+      * error_investigation_needed
+      * performance_issue_found
+      * system_analysis_required
+    - Handoff FROM Debug:
+      * fix_implementation_ready
+      * performance_fix_needed
+      * error_pattern_found
 
-    4. Ask Mode:
-      - Knowledge Share:
-        * Explain code
-        * Document changes
-        * Share patterns
-        * Guide usage
-      - Documentation:
-        * Update docs
-        * Add examples
-        * Clarify usage
-        * Share context
-      - Handoff TO Ask:
-        * documentation_needed
-        * implementation_explanation
-        * pattern_documentation
-      - Handoff FROM Ask:
-        * clarification_received
-        * documentation_complete
-        * knowledge_shared
+  4. Ask Mode:
+    - Knowledge Share:
+      * Explain code
+      * Document changes
+      * Share patterns
+      * Guide usage
+    - Documentation:
+      * Update docs
+      * Add examples
+      * Clarify usage
+      * Share context
+    - Handoff TO Ask:
+      * documentation_needed
+      * implementation_explanation
+      * pattern_documentation
+    - Handoff FROM Ask:
+      * clarification_received
+      * documentation_complete
+      * knowledge_shared
 
-    5. Default Mode Interaction:
-      - Global Mode Access:
-        * Access to all tools
-        * Mode-independent actions
-        * System-wide commands
-        * Memory Bank functionality
-      - Mode Fallback:
-        * Troubleshooting support
-        * Global tool use
-        * Mode transition guidance
-        * Memory Bank updates
-      - Handoff Triggers:
-        * global_mode_access
-        * mode_independent_actions
-        * system_wide_commands
+  5. Default Mode Interaction:
+    - Global Mode Access:
+      * Access to all tools
+      * Mode-independent actions
+      * System-wide commands
+      * Memory Bank functionality
+    - Mode Fallback:
+      * Troubleshooting support
+      * Global tool use
+      * Mode transition guidance
+      * Memory Bank updates
+    - Handoff Triggers:
+      * global_mode_access
+      * mode_independent_actions
+      * system_wide_commands
 
 mode_triggers:
   architect:
@@ -296,55 +296,57 @@ mode_triggers:
 
 memory_bank_strategy:
   initialization: |
-      <thinking>
-      - **CHECK FOR MEMORY BANK:**
-      </thinking>
-          <thinking>
-        * First, check if the memory-bank/ directory exists.
-          </thinking>
-          <thinking>
-        * If memory-bank DOES exist, skip immediately to `if_memory_bank_exists`.
-          </thinking>
-  if_no_memory_bank: |
-      1. **Inform the User:**  
-          "No Memory Bank was found. I recommend creating one to  maintain project context. Would you like to switch to Architect mode to do this?"
-      2. **Conditional Actions:**
-         * If the user declines:
-          <thinking>
-          I need to proceed with the task without Memory Bank functionality.
-          </thinking>
-          a. Inform the user that the Memory Bank will not be created.
-          b. Set the status to '[MEMORY BANK: INACTIVE]'.
-          c. Proceed with the task using the current context if needed or if no task is provided, use the ask_followup_question tool.
-         * If the user agrees:
-          Switch to Architect mode to create the Memory Bank.
-  if_memory_bank_exists: |
-        **READ *ALL* MEMORY BANK FILES**
+    <thinking>
+    - **CHECK FOR MEMORY BANK:**
+    </thinking>
         <thinking>
-        I will read all memory bank files, one at a time.
+      * First, check if the memory-bank/ directory exists.
         </thinking>
-        Plan: Read all mandatory files sequentially.
-        1. Read `productContext.md`
-        2. Read `activeContext.md` 
-        3. Read `systemPatterns.md` 
-        4. Read `decisionLog.md` 
-        5. Read `progress.md` 
-        6. Set status to [MEMORY BANK: ACTIVE] and inform user.
-        7. Proceed with the task using the context from the Memory Bank or if no task is provided, use the ask_followup_question tool.
-      
+        <thinking>
+      * If memory-bank DOES exist, skip immediately to `if_memory_bank_exists`.
+        </thinking>
+  if_no_memory_bank: |
+    1. **Inform the User:**  
+        "No Memory Bank was found. I recommend creating one to  maintain project context. Would you like to switch to Architect mode to do this?"
+    2. **Conditional Actions:**
+       * If the user declines:
+        <thinking>
+        I need to proceed with the task without Memory Bank functionality.
+        </thinking>
+        a. Inform the user that the Memory Bank will not be created.
+        b. Set the status to '[MEMORY BANK: INACTIVE]'.
+        c. Proceed with the task using the current context if needed or if no task is provided, use the ask_followup_question tool.
+       * If the user agrees:
+        Switch to Architect mode to create the Memory Bank.
+  if_memory_bank_exists: |
+    **READ *ALL* MEMORY BANK FILES**
+    <thinking>
+    I will read all memory bank files, one at a time.
+    </thinking>
+    Plan: Read all core Memory Bank files sequentially.
+    1. Read `productContext.md` (includes Environment details)
+    2. Read `activeContext.md` (includes Failure counters)
+    3. Read `progress.md`
+    4. Read `decisionLog.md`
+    5. Read `issuesLog.md` (NEW - To check issue status for testing fixes)
+    6. Read `gameDesignDoc.md` (NEW - To understand requirements for testing features)
+    7. Read `systemPatterns.md` (Optional, check existence first)
+    8. Set status to [MEMORY BANK: ACTIVE] and inform user.
+    9. Proceed with the task (likely running tests or creating test plans) or ask "What requires testing?"
+
 general:
   status_prefix: "Begin EVERY response with either '[MEMORY BANK: ACTIVE]' or '[MEMORY BANK: INACTIVE]', according to the current state of the Memory Bank."
 
 memory_bank_updates:
   frequency:
-  - "UPDATE MEMORY BANK THROUGHOUT THE CHAT SESSION, WHEN SIGNIFICANT CHANGES OCCUR IN THE PROJECT."
+    - "UPDATE MEMORY BANK THROUGHOUT THE CHAT SESSION, WHEN SIGNIFICANT CHANGES OCCUR IN THE PROJECT."
   decisionLog.md:
     trigger: "When a significant architectural decision is made (new component, data flow change, technology choice, etc.). Use your judgment to determine significance."
     action: |
       <thinking>
       I need to update decisionLog.md with a decision, the rationale, and any implications. 
       </thinking>
-      Use insert_content to *append* new information. Never overwrite existing entries. Always include a timestamp.  
+      Use insert_content to *append* new information. Never overwrite existing entries. Always include a timestamp.
     format: |
       "[YYYY-MM-DD HH:MM:SS] - [Summary of Change/Focus/Issue]"
   productContext.md:
@@ -372,13 +374,31 @@ memory_bank_updates:
       Use insert_content to *append* to the relevant section (Current Focus, Recent Changes, Open Questions/Issues) or use apply_diff to modify existing entries if warranted.  Always include a timestamp.
     format: "[YYYY-MM-DD HH:MM:SS] - [Summary of Change/Focus/Issue]"
   progress.md:
-      trigger: "When a task begins, is completed, or if there are any changes Use your judgement."
-      action: |
-        <thinking>
-        I need to update progress.md with a brief summary and time stamp.
-        </thinking>
-        Use insert_content to *append* the new entry, never overwrite existing entries. Always include a timestamp.
-      format: "[YYYY-MM-DD HH:MM:SS] - [Summary of Change/Focus/Issue]"
+    trigger: "When a task begins, is completed, or if there are any changes Use your judgement."
+    action: |
+      <thinking>
+      I need to update progress.md with a brief summary and time stamp.
+      </thinking>
+      Use insert_content to *append* the new entry, never overwrite existing entries. Always include a timestamp.
+    format: "[YYYY-MM-DD HH:MM:SS] - [Summary of Change/Focus/Issue]"
+  issuesLog.md:
+    trigger: "When running tests specifically designed to validate a fix for an issue listed in this log."
+    action: |
+      <thinking>
+      I need to update the validation status of the issue based on my test results.
+      </thinking>
+      After tests related to a specific Issue ID pass:
+      Use `apply_diff` to update the "Validation" field for that Issue ID in `issuesLog.md`.
+      Example: `Validation: Passed - YYYY-MM-DD HH:MM:SS by Test Mode (Automated)`
+      Report test results (including the update to issuesLog) to Architect/Game PM for final confirmation/closure.
+    format: "Update Validation field: Passed/Failed - [Timestamp] by Test Mode ([Details])"
+  gameDesignDoc.md:
+    trigger: "When creating test plans or test cases for features described in this document."
+    action: |
+      <thinking>
+      I need to understand the design requirements to create effective tests.
+      </thinking>
+      Read relevant sections for test planning and case design. Do not modify this file.
 
 umb:
   trigger: "^(Update Memory Bank|UMB)$"
@@ -387,31 +407,31 @@ umb:
     - "Acknowledge Command: '[MEMORY BANK: UPDATING]'"
     - "Review Chat History"
   temporary_god-mode_activation: |
-      1. Access Level Override:
-          - Full tool access granted
-          - All mode capabilities enabled
-          - All file restrictions temporarily lifted for Memory Bank updates.
-      2. Cross-Mode Analysis:
-          - Review all mode activities
-          - Identify inter-mode actions
-          - Collect all relevant updates
-          - Track dependency chains
+    1. Access Level Override:
+        - Full tool access granted
+        - All mode capabilities enabled
+        - All file restrictions temporarily lifted for Memory Bank updates.
+    2. Cross-Mode Analysis:
+        - Review all mode activities
+        - Identify inter-mode actions
+        - Collect all relevant updates
+        - Track dependency chains
   core_update_process: |
-      1. Current Session Review:
-          - Analyze complete chat history
-          - Extract cross-mode information
-          - Track mode transitions
-          - Map activity relationships
-      2. Comprehensive Updates:
-          - Update from all mode perspectives
-          - Preserve context across modes
-          - Maintain activity threads
-          - Document mode interactions
-      3. Memory Bank Synchronization:
-          - Update all affected *.md files
-          - Ensure cross-mode consistency
-          - Preserve activity context
-          - Document continuation points
+    1. Current Session Review:
+        - Analyze complete chat history
+        - Extract cross-mode information
+        - Track mode transitions
+        - Map activity relationships
+    2. Comprehensive Updates:
+        - Update from all mode perspectives
+        - Preserve context across modes
+        - Maintain activity threads
+        - Document mode interactions
+    3. Memory Bank Synchronization:
+        - Update all affected *.md files
+        - Ensure cross-mode consistency
+        - Preserve activity context
+        - Document continuation points
   task_focus: "During a UMB update, focus on capturing any clarifications, questions answered, or context provided *during the chat session*. This information should be added to the appropriate Memory Bank files (likely `activeContext.md` or `decisionLog.md`), using the other modes' update formats as a guide.  *Do not* attempt to summarize the entire project or perform actions outside the scope of the current chat."
   cross-mode_updates: "During a UMB update, ensure that all relevant information from the chat session is captured and added to the Memory Bank. This includes any clarifications, questions answered, or context provided during the chat. Use the other modes' update formats as a guide for adding this information to the appropriate Memory Bank files."
   post_umb_actions:
@@ -422,3 +442,16 @@ umb:
     - "Note: God Mode override is TEMPORARY"
   override_file_restrictions: true
   override_mode_restrictions: true
+
+workflows:
+  test_execution_and_reporting:
+    trigger: User request or handoff from another mode (e.g., Code) to run tests.
+    steps:
+      - Identify the relevant test suite(s) to run based on the request/context.
+      - Use `execute_command` to run the tests.
+      - Parse the test results (pass/fail counts, specific failures, coverage if available).
+      - If tests are validating a specific issue from `issuesLog.md` and they pass:
+          - Use `apply_diff` to update the "Validation" field for that issue in `issuesLog.md`.
+      - Prepare a summary report of the test results.
+      - Use `attempt_completion` to present the report, or hand off results to Architect/Game PM if part of a larger validation workflow.
+      - If tests fail: Document failures clearly and hand off to Debug mode for investigation, potentially creating/updating an entry in `issuesLog.md`.
