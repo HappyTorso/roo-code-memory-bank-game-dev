@@ -1,763 +1,395 @@
-# Roo Code Memory Bank: Developer Primer
+# Roo Code Memory Bank: Game Development Developer Primer
+
+This primer provides a comprehensive guide for developers using the Roo Code Memory Bank system, specifically adapted for game development workflows.
 
 ## 🏗️ System Architecture
 
 ### Core Components
 
+The system integrates several core components to manage context and facilitate collaboration between specialized AI modes within a game development project.
+
 ```mermaid
-flowchart TD
+graph TD
     A[Memory Bank System] --> B[Core Files]
     A --> C[Mode System]
     A --> D[Configuration]
     A --> E[Real-time Updates]
-    
-    B --> B1[activeContext.md]
-    B --> B2[productContext.md]
-    B --> B3[progress.md]
-    B --> B4[decisionLog.md]
-    
-    C --> C1[Architect Mode]
-    C --> C2[Code Mode]
-    C --> C3[Ask Mode]
-    C --> C4[Debug Mode]
-    
-    D --> D1[.clinerules Files]
-    D --> D2[Mode Switching]
-    D --> D3[Tool Access]
-    
-    E --> E1[Event Monitor]
-    E --> E2[Update Queue]
-    E --> E3[Sync Manager]
+
+    subgraph B [Core Memory Bank Files]
+        B1[productContext.md]
+        B2[activeContext.md]
+        B3[progress.md]
+        B4[decisionLog.md]
+        B5[issuesLog.md]
+        B6[gameDesignDoc.md]
+        B7[systemPatterns.md (Optional)]
+    end
+
+    subgraph C [Mode System (Game Dev Roles)]
+        C1[Game PM (Architect)]
+        C2[Game Programmer (Code)]
+        C3[Game Doc & Knowledge (Ask)]
+        C4[Game Debugger (Debug)]
+        C5[Game Tester (Test)]
+    end
+
+    subgraph D [Configuration]
+        D1[.roorules Files]
+        D2[Mode Switching]
+        D3[Tool Access]
+    end
+
+    subgraph E [Real-time Updates]
+        E1[Event Monitor]
+        E2[Update Queue]
+        E3[Sync Manager]
+    end
 ```
 
 ## 📚 Memory Bank Structure
 
-The Memory Bank system consists of a `memory-bank/` directory containing core and optional files:
-
+The Memory Bank system resides in a `memory-bank/` directory at the project root, containing core and optional files tailored for game development:
 
 ### Core Files
 
-1. **activeContext.md**
-   - Purpose: Tracks current session state and goals
-   - Content:
-     - Current tasks and objectives
-     - Recent changes and decisions
-     - Open questions and blockers
-     - Session-specific context
-   - Update Frequency: Every session
+1.  **`productContext.md`**
 
-2. **productContext.md**
-   - Purpose: Defines project scope and core knowledge
-   - Content:
-     - Project overview and goals
-     - Component architecture
-     - Technical standards
-     - Key dependencies
-   - Update Frequency: When project scope changes
+    - **Purpose:** Defines the game project's scope, high-level goals, and core technical setup. Captures essential environment details like game engine, target platforms, and version control.
+    - **Content:** Project goal, key features, overall architecture, development environment & engine details.
+    - **Update Frequency:** When project scope, core features, or technical environment changes significantly. Updated by Game PM (Architect).
 
-3. **progress.md**
-   - Purpose: Tracks work status and milestones
-   - Content:
-     - Completed work items
-     - Current tasks
-     - Next steps
-     - Known issues
-   - Update Frequency: As tasks progress
+2.  **`activeContext.md`**
 
-4. **decisionLog.md**
-   - Purpose: Records important decisions
-   - Content:
-     - Technical decisions
-     - Architecture choices
-     - Implementation details
-     - Alternative considerations
-   - Update Frequency: When decisions are made
+    - **Purpose:** Tracks the current session's state, active tasks, recent changes, open questions, and crucially, **consecutive failure counts** for ongoing tasks/bug fixes.
+    - **Content:** Current focus (task/issue ID, working mode, failure count), recent changes, open questions/blockers.
+    - **Update Frequency:** Frequently throughout a session as focus shifts, progress is made, or failures occur. Updated by most modes.
 
+3.  **`progress.md`**
 
-## 🔄 Mode System
+    - **Purpose:** Tracks overall project progress, focusing on game features, bug fixes, and milestones using a task list format.
+    - **Content:** Completed tasks, current tasks, next steps.
+    - **Update Frequency:** As tasks are started, progress, or are completed. Updated by Game PM, Game Programmer, Game Tester.
+
+4.  **`decisionLog.md`**
+
+    - **Purpose:** Records significant architectural, design, and implementation decisions made during development.
+    - **Content:** Timestamped entries detailing the decision, rationale, and implementation details/implications.
+    - **Update Frequency:** When important decisions are finalized. Updated primarily by Game PM, potentially by other modes during UMB.
+
+5.  **`issuesLog.md`** (Game Dev Specific)
+
+    - **Purpose:** Tracks reported bugs and technical issues throughout the development lifecycle. Central reference for the Game Debugger and Game Tester.
+    - **Content:** Structured entries for each issue including ID, report details, status, severity, description, reproduction steps, investigation notes, resolution, and validation status.
+    - **Update Frequency:** When bugs are reported, investigated, resolved, or validated. Updated primarily by Game Debugger, Game Tester, and Game PM.
+
+6.  **`gameDesignDoc.md`** (Game Dev Specific)
+    - **Purpose:** Contains the detailed game design specifications, acting as the blueprint for implementation and testing.
+    - **Content:** Core gameplay loop, key mechanics, level design concepts, narrative outline, UI/UX specifications, etc. (Structure evolves with the project).
+    - **Update Frequency:** When design elements are defined or significantly changed (often following decisions logged in `decisionLog.md`). Updated primarily by Game PM, read by Game Programmer and Game Tester.
+
+### Optional Files
+
+1.  **`systemPatterns.md`**
+    - **Purpose:** Documents recurring coding, architectural, or testing patterns and standards used within the project to promote consistency.
+    - **Content:** Descriptions and examples of established patterns.
+    - **Update Frequency:** As new patterns emerge or existing ones are refined. Updated by Game PM or Game Programmer.
+
+## 🔄 Mode System (Game Development Roles)
+
+The system utilizes specialized modes, each acting as an AI assistant with a specific role within the game development team:
 
 ### Mode Types
 
-1. **Architect Mode**
-   - Purpose: System design and architecture
-   - Capabilities:
-     - Memory Bank initialization
-     - Architecture decisions
-     - System planning
-   - File Access: Markdown files only
+1.  **Game PM (Architect Mode)**
 
-2. **Code Mode**
-   - Purpose: Implementation and coding
-   - Capabilities:
-     - Full file access
-     - Code generation
-     - File modifications
-   - No file restrictions
+    - **Role:** Project Manager focusing on system design, documentation structure, project organization, task oversight, and validation coordination.
+    - **Responsibilities:** Initializes/manages Memory Bank, guides high-level design (updating GDD, Product Context), coordinates mode interactions, handles escalations (recurring failures, architectural reviews), validates completed work.
+    - **File Access:** Primarily Markdown files (`.md`).
 
-3. **Ask Mode**
-   - Purpose: Information and guidance
-   - Capabilities:
-     - Context understanding
-     - Documentation help
-     - Best practices guidance
-   - File Access: Read-only
+2.  **Game Programmer (Code Mode)**
 
-4. **Debug Mode**
-   - Purpose: Troubleshooting and problem-solving
-   - Capabilities:
-     - System behavior analysis
-     - Incremental testing
-     - Root cause identification
-     - Diagnostic tooling
-   - File Access: Read-only
+    - **Role:** Implements game features and fixes bugs based on specifications from the Game PM and the `gameDesignDoc.md`.
+    - **Responsibilities:** Writes/modifies code, follows design patterns, maintains code quality, updates technical documentation (comments, potentially `systemPatterns.md`), requests user testing, adheres to architectural guardrails.
+    - **File Access:** Full file access (code, assets, config, etc.).
+
+3.  **Game Doc & Knowledge (Ask Mode)**
+
+    - **Role:** Provides information and answers questions based on the Memory Bank and external resources.
+    - **Responsibilities:** Answers queries about game design (`gameDesignDoc.md`), issues (`issuesLog.md`), code, architecture (`productContext.md`, `decisionLog.md`), and patterns (`systemPatterns.md`). Can perform web searches when requested. Guides users to appropriate modes for actions.
+    - **File Access:** Read-only access to Memory Bank and project files.
+
+4.  **Game Debugger (Debug Mode)**
+
+    - **Role:** Troubleshoots and debugs game-related issues reported in `issuesLog.md`.
+    - **Responsibilities:** Analyzes bugs, investigates root causes (using logs, code analysis, web search), documents findings in `issuesLog.md`, coordinates fixes with Game Programmer, may propose solutions or escalate architectural issues to Game PM.
+    - **File Access:** Read-only access generally, but updates `issuesLog.md` frequently.
+
+5.  **Game Tester (Test Mode)**
+    - **Role:** Responsible for Test-Driven Development (TDD), test execution, and quality assurance.
+    - **Responsibilities:** Writes test cases (ideally before implementation), executes tests, validates code changes/bug fixes, analyzes results, reports failures to Game Debugger, updates validation status in `issuesLog.md`, tracks coverage.
+    - **File Access:** Read-only access generally, but updates `issuesLog.md` validation status. Executes test commands.
 
 ### Intelligent Mode Switching
 
+The system facilitates seamless collaboration through intelligent mode switching based on task requirements and defined triggers in the `.roorules` files.
+
 ```mermaid
 stateDiagram-v2
-    Architect --> Code : Implementation/File Edit
-    Architect --> Ask : Information Request
-    Architect --> Debug : Problem Investigation
-    Ask --> Code : Implementation Request
-    Ask --> Architect : Design Discussion
-    Ask --> Debug : Troubleshooting Request
-    Code --> Architect : Architecture Review
-    Code --> Ask : Documentation Help
-    Code --> Debug : Bug Investigation
-    Debug --> Code : Fix Implementation
-    Debug --> Ask : Documentation Reference
-    Debug --> Architect : System Design Review
+    [*] --> GamePM : Start Session / Init
+
+    GamePM --> GameProgrammer : implementation_needed
+    GamePM --> GameProgrammer : code_modification_needed
+    GamePM --> GameProgrammer : refactoring_required
+    GamePM --> GameTester : needs_test_plan
+    GamePM --> GameTester : requires_test_review
+    GamePM --> GameDebugger : architectural_issue_detected
+    GamePM --> GameDebugger : design_flaw_detected
+    GamePM --> GameDebugger : performance_problem_found
+    GamePM --> GameDoc : knowledge_structure_needed
+    GamePM --> GameDoc : pattern_explanation_needed
+
+    GameProgrammer --> GamePM : needs_architectural_changes
+    GameProgrammer --> GamePM : design_clarification_needed
+    GameProgrammer --> GamePM : pattern_violation_found
+    GameProgrammer --> GamePM : architectural_review_needed
+    GameProgrammer --> GamePM : recurring_failure_escalation
+    GameProgrammer --> GameTester : tests_need_update
+    GameProgrammer --> GameTester : coverage_check_needed
+    GameProgrammer --> GameTester : feature_ready_for_testing
+    GameProgrammer --> GameDebugger : error_investigation_needed
+    GameProgrammer --> GameDebugger : performance_issue_found
+    GameProgrammer --> GameDoc : documentation_needed
+    GameProgrammer --> GameDoc : implementation_explanation
+
+    GameTester --> GamePM : validation_complete / needs_review
+    GameTester --> GameProgrammer : test_fixes_required
+    GameTester --> GameProgrammer : coverage_gaps_found
+    GameTester --> GameDebugger : test_analysis_needed (failure)
+    GameTester --> GameDoc : test_documentation_needed
+
+    GameDebugger --> GamePM : needs_architectural_review
+    GameDebugger --> GamePM : pattern_indicates_design_issue
+    GameDebugger --> GamePM : recurring_failure_escalation
+    GameDebugger --> GameProgrammer : fix_implementation_needed
+    GameDebugger --> GameProgrammer : performance_fix_required
+    GameDebugger --> GameTester : test_validation_needed
+    GameDebugger --> GameDoc : needs_context_clarification
+
+    GameDoc --> GamePM : needs_architectural_guidance
+    GameDoc --> GameProgrammer : needs_implementation_guidance
+    GameDoc --> GameTester : needs_testing_explained
+    GameDoc --> GameDebugger : debugging_question
+
+    GameProgrammer --> User : user_testing_prompt
+    User --> GameProgrammer : Test Feedback (Pass/Fail)
 ```
 
-The system supports intelligent mode switching based on both prompt analysis and operational needs:
-
-1. **Intent-Based Triggers**:
-   ```yaml
-   mode_switching:
-     enabled: true
-     preserve_context: true
-     intent_triggers:
-         code:
-           - implement
-           - create
-           - build
-           - code
-           - develop
-           - fix
-         debug:
-           - debug
-           - troubleshoot
-           - diagnose
-           - investigate
-           - analyze
-           - trace
-           - root cause
-         architect:
-           - design
-           - architect
-           - structure
-           - plan
-         ask:
-           - explain
-           - help
-           - what
-           - how
-           - why
-   ```
-
-2. **Operational Triggers**:
-   - **File-based**: Switches based on file operations
-   - **Mode-specific**: Contextual switches based on task type
-   - **Capability-based**: Switches to mode with required capabilities
-
-3. **Context Preservation**:
-   - Maintains task state across switches
-   - Preserves conversation history
-   - Tracks active files and operations
-
-4. **Benefits**:
-   - Natural language-driven mode selection
-   - Seamless context transitions
-   - Improved workflow efficiency
-   - Task-appropriate mode selection
-
+- **Intent-Based Triggers:** Keywords in user prompts can suggest mode switches (e.g., "implement" -> Game Programmer, "debug" -> Game Debugger).
+- **Operational Triggers:** Actions like attempting to edit code in a read-only mode, or specific workflow steps (e.g., test failure -> Game Debugger), trigger switches.
+- **Context Preservation:** Task state, conversation history, and active file context are maintained across mode switches.
 
 ## ⚙️ Configuration System
 
-### .clinerules Files
+Project behavior is customized through `.roorules` files located at the project root.
 
-1. **.clinerules-architect**
-   - Mode switching for non-markdown files
-   - Memory Bank initialization rules
-   - Architecture documentation standards
+### .roorules Files
 
-2. **.clinerules-code**
-   - Full file access configuration
-   - Code generation settings
-   - Tool access permissions
-
-3. **.clinerules-ask**
-   - Read-only access settings
-   - Mode switching for edits
-   - Documentation preferences
-
-4. **.clinerules-debug**
-   - Read-only access settings
-   - Diagnostic tool permissions
-   - Logging and tracing configurations
+- **`.roorules-architect`:** Defines Game PM role, Memory Bank initialization, architectural workflows, validation logic, escalation handling.
+- **`.roorules-code`:** Defines Game Programmer role, file access, implementation workflows, architectural guardrails, user testing prompts, failure handling.
+- **`.roorules-ask`:** Defines Game Doc & Knowledge role, read-only access, web search workflow, guidance logic.
+- **`.roorules-debug`:** Defines Game Debugger role, issue investigation workflows, `issuesLog.md` update logic, failure handling, web search capability.
+- **`.roorules-test`:** Defines Game Tester role, TDD principles, test execution workflow, `issuesLog.md` validation update logic.
 
 ### File Organization
 
 ```
 project-root/
-├── .clinerules-architect
-├── .clinerules-code
-├── .clinerules-ask
-├── .clinerules-debug
+├── .roorules-architect
+├── .roorules-code
+├── .roorules-ask
+├── .roorules-debug
+├── .roorules-test
 ├── memory-bank/
-│   ├── activeContext.md
 │   ├── productContext.md
+│   ├── activeContext.md
 │   ├── progress.md
-│   └── decisionLog.md
-└── projectBrief.md
+│   ├── decisionLog.md
+│   ├── issuesLog.md
+│   ├── gameDesignDoc.md
+│   └── systemPatterns.md (Optional)
+└── projectBrief.md (Optional, used for initial context)
 ```
 
 ## 🛠️ Development Workflow
 
 ### Real-time Update System
 
-1. **Event Monitoring**
-   - Continuous tracking of project-related events
-   - Mode-specific update triggers
-   - Automatic event classification
+The system monitors events and updates the Memory Bank to maintain context, although many updates are triggered explicitly by mode actions and workflows.
 
-2. **Update Processing**
-   - Immediate file updates based on event type
-   - Asynchronous processing for performance
-   - Priority-based update queue
-
-3. **Sync Management**
-   - Cross-reference preservation
-   - Context consistency checks
-   - Conflict resolution
-
-4. **Manual Fallback (UMB)**
-   - Emergency session termination
-   - Mid-task interruptions
-   - Connection recovery
-   - Force synchronization
+- **Event Monitoring:** Tracks relevant events (file changes, mode switches, task completions).
+- **Update Processing:** Mode actions trigger updates to specific Memory Bank files (e.g., Game Debugger updates `issuesLog.md`).
+- **Sync Management:** Aims to keep Memory Bank files consistent, especially during UMB commands.
+- **Manual Fallback (UMB):** The "Update Memory Bank" (UMB) command triggers a comprehensive review of the session and updates all relevant Memory Bank files, ensuring context preservation across breaks or restarts.
 
 ### Memory Bank Initialization
 
-1. Start in Architect mode
-2. System checks for `memory-bank/`
-3. If missing:
-   - Creates directory
-   - Generates core files
-   - Sets up initial context
+1.  Start in **Game PM (Architect)** mode.
+2.  System checks for `memory-bank/`.
+3.  If missing, Game PM proposes initialization.
+4.  If user agrees:
+    - Game PM checks for `projectBrief.md` for initial context.
+    - Game PM creates `memory-bank/` directory.
+    - Game PM creates core files (`productContext.md`, `activeContext.md`, `progress.md`, `decisionLog.md`, `issuesLog.md`, `gameDesignDoc.md`) with initial templates.
+    - Game PM triggers **Initialization Environment Check** workflow.
+    - Memory Bank becomes `[MEMORY BANK: ACTIVE]`.
+5.  If user declines, proceed with `[MEMORY BANK: INACTIVE]`.
 
 ### Session Workflow
 
-1. **Session Start**
-   - System reads all Memory Bank files
-   - Builds comprehensive context
-   - Loads mode-specific rules
+1.  **Session Start:**
+    - System reads all Memory Bank files upon entering a relevant mode (Game PM, Game Programmer, etc.).
+    - Builds context from `productContext.md`, `activeContext.md`, etc.
+    - Loads mode-specific rules and workflows.
+2.  **During Session:**
+    - Modes collaborate based on defined triggers and handoffs.
+    - Memory Bank files are updated by relevant modes based on actions (e.g., Game Programmer implements feature -> updates `progress.md`; Game Debugger investigates -> updates `issuesLog.md` and `activeContext.md`).
+    - Failure counts in `activeContext.md` are tracked.
+    - Architectural reviews and user testing prompts occur as needed.
+3.  **Session End:**
+    - Recommended: Use the **UMB** command to ensure all session context is captured comprehensively in the Memory Bank.
+    - Game PM might review `progress.md` and plan next steps.
 
-2. **During Session**
-   - Automatic mode switching as needed
-   - Context updates in activeContext.md
-   - Progress tracking in progress.md
+### Key Game Development Workflows
 
-3. **Session End**
-   - Update progress.md
-   - Record decisions in decisionLog.md
-   - Plan next steps
+- **Initialization Environment Check (Game PM):** Ensures core technical details (engine, language, platform, VCS) are captured in `productContext.md` at the start.
+- **Task Validation (Game PM):** Reviews completed tasks/fixes (based on user feedback or Test mode results), updates `progress.md`/`issuesLog.md`, handles failures by incrementing counter in `activeContext.md` and potentially escalating.
+- **Architectural Review (Game PM):** Triggered by other modes (or self) before significant, unplanned architectural changes. Involves review against Memory Bank context and user consultation.
+- **Failure Loop Escalation (Game PM):** Triggered automatically after 3 consecutive failed attempts on a task/issue (tracked in `activeContext.md`). Game PM decides on next strategic step (web search via Ask, deeper debugging, re-evaluation with user).
+- **Architectural Guardrail Check (Game Programmer/Debugger):** Internal check before modifying potentially critical files; triggers review by Game PM if needed.
+- **User Testing Prompt (Game Programmer):** Explicitly asks the user to test implemented changes before marking work as complete.
+- **Failure Handling (Game Programmer/Debugger):** Processes negative feedback from testing/validation, increments failure counter in `activeContext.md`, escalates to Game PM if threshold reached.
+- **Web Search Request (Game Doc/Debugger):** Uses MCP tool to fetch external information when needed for documentation or troubleshooting.
+- **Issue Logging (Game Debugger):** Manages the lifecycle of bug reports within `issuesLog.md`.
+- **Test Execution and Reporting (Game Tester):** Runs tests, reports results, updates validation status in `issuesLog.md`, hands off failures to Game Debugger.
 
-## 🔍 Best Practices
+## 🔍 Best Practices for Game Development
 
-1. **Memory Bank Management**
-   - Keep files focused and organized
-   - Update regularly during sessions
-   - Cross-reference between files
-
-2. **Mode Usage**
-   - Start architecture work in Architect mode
-   - Let automatic switching handle transitions
-   - Use Ask mode for documentation
-
-3. **Documentation**
-   - Keep decisions documented
-   - Update progress regularly
-   - Maintain clear context
+1.  **Memory Bank Management:**
+    - Keep `gameDesignDoc.md` updated with design decisions (led by Game PM).
+    - Ensure `issuesLog.md` accurately reflects bug status (led by Game Debugger/Tester).
+    - Regularly update `progress.md` as features/fixes are completed.
+    - Use `decisionLog.md` for significant choices impacting architecture or design.
+    - Leverage `activeContext.md` for immediate task focus and failure tracking.
+    - Use the **UMB** command at the end of sessions or before breaks.
+2.  **Mode Usage:**
+    - Start design/planning in **Game PM** mode.
+    - Use **Game Programmer** for implementation, respecting guardrails.
+    - Consult **Game Doc** for questions about design, issues, or code.
+    - Rely on **Game Debugger** for investigating failures reported by User/Tester.
+    - Utilize **Game Tester** for validating fixes and features according to TDD principles.
+    - Trust the automatic mode switching for efficient handoffs.
+3.  **Documentation & Communication:**
+    - Prioritize clear specifications in `gameDesignDoc.md`.
+    - Maintain detailed and up-to-date bug information in `issuesLog.md`.
+    - Document key decisions in `decisionLog.md`.
+    - Use `progress.md` for clear task status.
 
 ## 🐛 Troubleshooting
 
-1. **Mode Switching Issues**
-   - Verify .clinerules files
-   - Check file permissions
-   - Review mode switching logs
-
-2. **Memory Bank Problems**
-   - Ensure core files exist
-   - Verify file structure
-   - Check file permissions
-
-3. **Context Issues**
-   - Update activeContext.md
-   - Review recent changes
-   - Check file synchronization
-
-
-Example Memory Bank Updates:
-
-
-* productContext.md:
- ```markdown
- # memory-bank/productContext.md
-
- Project Overview
- This project is a [briefly describe your application - e.g., "task management web application"].
- We are adding user authentication to enhance security and personalize user experience.
-
- Key Technologies
- - [List existing technologies]
- - OAuth 2.0 (for social login - *Decision needed: which provider?*)
- - JWT (JSON Web Tokens) for session management
- - bcrypt (for password hashing)
- ```
-
-* activeContext.md (Example - Initial state):
- ```markdown
- # memory-bank/activeContext.md
-
- Current Task
- Developing user authentication feature.
-
- Next Steps
- - 1. Plan database schema for user credentials.
- - 2. Implement user registration API endpoint.
- - 3. Implement user login API endpoint.
- - 4. Implement JWT-based authentication middleware.
-
- Open Questions
- - Which OAuth 2.0 provider to use (Google, GitHub, etc.)?
- - Password complexity requirements?
- - Session management strategy (e.g., refresh tokens)?
- ```
-
-* progress.md (Example - Tracking progress):
- ```markdown
- # memory-bank/progress.md
-
- Work Done
- - [Initially empty]
- - [After completing database schema design]: - Database schema for user credentials designed and documented.
- - [After implementing registration API]: - User registration API endpoint implemented and tested (basic functionality).
- - [Continue updating as tasks are completed]
-
- To Do
- - [Initially, list all planned tasks]
- - Plan database schema for user credentials.
- - Implement user registration API endpoint.
- - Implement user login API endpoint.
- - Implement JWT-based authentication middleware.
- - Implement frontend integration for login/registration.
- - Implement session management.
- - Implement password reset functionality.
- - Write unit and integration tests for authentication.
- - [Update as tasks are completed and new tasks emerge]
-
- Current Status
- User authentication feature - In development - Database schema design in progress.
- - [Update status as development progresses] - User authentication feature - In development - User registration API implemented, working on login API.
- - [Upon completion] - User authentication feature - Completed and integrated.
- ```
-
-Benefits:
-
-- Comprehensive feature planning & documentation
-- Systematic task & progress tracking
-- Context maintenance across sessions
-- Effective status communication
-
-Memory Bank for Refactoring: Complex Code Module
-
-Memory Bank Initialization: Quick Workflow
-
-The Memory Bank initialization is largely automatic. Here’s a simplified view of the process:
-
-1. **Start in Architect or Code Mode:** When you open a new project in VS Code and switch to Architect or Code mode, Roo Code automatically checks for a `memory-bank/`.
-2. **Initialization Plan:** If `memory-bank/` is missing, Roo Code (in Architect mode) will guide you with a plan to set it up.
-3. **Switch to Code Mode:** Follow Roo's prompt to switch to Code mode.
-4. **Create Memory Bank Files:** In Code mode, follow Roo's plan to create the `memory-bank/` directory and the necessary files.
-5. **Memory Bank Ready:** Once files are created, your Memory Bank is initialized and ready for use.
-
-
-Handling Multiple Projects in a Workspace
-
-
-If you have multiple projects with their own Memory Banks within your VS Code workspace, Roo Code can automatically detect them and prompt you to select the target project for the current chat session.
-
-Handling Multiple Projects in a Workspace
-
-
-If you have multiple projects with their own Memory Banks within your VS Code workspace, Roo Code can automatically detect them and prompt you to select the target project for the current chat session.
-
-
-Automatic Project Detection and Selection:
-
-
-1. New Chat Session: When you start a new chat session in Architect or Code mode, Roo Code scans your workspace for `memory-bank/` directories.
-2. Multiple Memory Banks Found: If multiple `memory-bank/` directories are detected, Roo Code will display a prompt in the chat asking you to choose the project you want to work on.
-3. Project Selection Prompt: Roo Code will display a prompt asking you to choose your project.  It will look something like this in the chat:
-
-```text
-Multiple Memory Banks detected.
-
-Please select the project for this session:
-
-1. poptools-app
-2. Roo-Code
-3. roo-code-memory-bank
-
-Enter the number of your project choice.
-```
-4. Select Your Project: Enter the number corresponding to the project you want to work with and press Enter.
-5. Context Loaded: Roo Code will then load the Memory Bank for the selected project and use it for the current chat session.
-
-Example Scenario: Multi-Project Workspace
-
-Let's say you have a workspace with multiple projects, like `webapp` and `mobile-app`, each with its own `memory-bank/` directory.
-
-When you initiate a new chat in Architect mode, Roo Code will detect both Memory Banks and ask you to select the project you want to focus on for this session. The prompt will look similar to the example below:
-
-```text
-Multiple Memory Banks detected.
-
-Please select the project for this session:
-
-1. webapp
-2. mobile-app
-
-Enter the number of your project choice.
-```
-By choosing '1', Roo Code will then use the Memory Bank from your `webapp` project for this session.
-
-By selecting '1', you ensure that Roo Code uses the Memory Bank from your `webapp` project for this session.
-
-
-Organizing Multi-Project Workspaces:
-
-
-To effectively manage multiple projects with Memory Banks:
-
-* Keep Memory Banks at Project Roots: Ensure each project has its `memory-bank/` directory at the root level of its project directory.
-* Clear Project Names: Use descriptive names for your project directories to easily identify them in the project selection prompt.
-* Workspace Structure: Organize your workspace so that project directories are clearly separated.
-
-This automatic project detection and selection feature simplifies working with multiple projects and ensures Roo Code always has the correct project context for each session.
-
-
-Automatic Project Detection and Selection:
-
-
-1. New Chat Session: When you start a new chat session in Architect or Code mode, Roo Code scans your workspace for `memory-bank/` directories.
-2. Multiple Memory Banks Found: If multiple `memory-bank/` directories are detected, Roo Code will display a prompt in the chat asking you to choose the project you want to work on.
-3. Project Selection Prompt: Roo Code will display a prompt asking you to choose your project.  It will look something like this in the chat:
-
-```text
-Multiple Memory Banks detected.
-
-Please select the project for this session:
-
-1. poptools-app
-2. Roo-Code
-3. roo-code-memory-bank
-
-Enter the number of your project choice.
-```
-4. Select Your Project: Enter the number corresponding to the project you want to work with and press Enter.
-5. Context Loaded: Roo Code will then load the Memory Bank for the selected project and use it for the current chat session.
-
-Example Scenario: Multi-Project Workspace
-
-Let's say you have a workspace with multiple projects, like `webapp` and `mobile-app`, each with its own `memory-bank/` directory.
-
-When you initiate a new chat in Architect mode, Roo Code will detect both Memory Banks and ask you to select the project you want to focus on for this session. The prompt will look similar to the example below:
-
-```text
-Multiple Memory Banks detected.
-
-Please select the project for this session:
-
-1. webapp
-2. mobile-app
-
-Enter the number of your project choice.
-```
-By choosing '1', Roo Code will then use the Memory Bank from your `webapp` project for this session.
-
-By selecting '1', you ensure that Roo Code uses the Memory Bank from your `webapp` project for this session.
-
-
-Organizing Multi-Project Workspaces:
-
-
-To effectively manage multiple projects with Memory Banks:
-
-* Keep Memory Banks at Project Roots: Ensure each project has its `memory-bank/` directory at the root level of its project directory.
-* Clear Project Names: Use descriptive names for your project directories to easily identify them in the project selection prompt.
-* Workspace Structure: Organize your workspace so that project directories are clearly separated.
-
-This automatic project detection and selection feature simplifies working with multiple projects and ensures Roo Code always has the correct project context for each session.
-
-Example Memory Bank Updates:
-
-
-* activeContext.md (Refactoring plan & progress):
- ```markdown
- # memory-bank/activeContext.md
-
- Current Task
- Refactoring complex `utils/legacy_module.py` module.
-
- Refactoring Strategy
- - 1. Analyze `utils/legacy_module.py`
- - 2. Decompose into smaller modules/functions
- - 3. Improve naming and documentation
- - 4. Write unit tests
- - 5. Gradually refactor and test
-
- Files to Refactor
- - `utils/legacy_module.py`
-
- Refactoring Progress
- - [Initially empty]
- - [After analysis]: - Analysis of `utils/legacy_module.py` completed. Refactoring strategy documented.
- - [After decomposition]: - Core functions decomposed into smaller modules in `utils/refactored_module/`.
- - [Continue updating as refactoring progresses]
-
- Open Questions
- -  Dependencies on `utils/legacy_module.py`?
- -  Estimated refactoring time?
- ```
-
-* decisionLog.md (Example decisions):
- ```markdown
- # memory-bank/decisionLog.md
-
- Refactoring `utils/legacy_module.py` - Decisions
-
- - [Date]: Decision: Decompose `legacy_module.py` by functional areas.
-  - Rationale: Improves modularity and maintainability.
-  - Alternatives: In-place refactoring (Rejected - less impactful).
-
- - [Date]: Decision: Use descriptive naming and comprehensive docstrings.
-  - Rationale: Improves code readability.
-  - Alternatives: Minimal documentation (Rejected - insufficient).
- ```
-
-* progress.md (Tracking refactoring progress):
- ```markdown
- # memory-bank/progress.md
-
- Work Done
- - [Initially empty]
- - [After analysis and planning]: - Refactoring plan for `utils/legacy_module.py` documented in `activeContext.md` and `decisionLog.md`.
- - [After decomposition]: - Core functions of `legacy_module.py` decomposed into smaller modules in `utils/refactored_module/`.
- - [Continue updating as refactoring progresses]
-
- To Do
- - [Initially, list all refactoring tasks]
- - Analyze `utils/legacy_module.py`.
- - Decompose into smaller modules/functions.
- - Improve naming and documentation.
- - Write unit tests for refactored modules.
- - Gradually refactor and test each module.
- - Integrate refactored modules.
- - Verify functionality after refactoring.
- - [Update as tasks are completed]
-
- Current Status
- Refactoring `utils/legacy_module.py` - Planning complete.
- - [Update status as refactoring progresses] - Refactoring `utils/legacy_module.py` - In progress - Core functions decomposition completed.
- - [Upon completion] - Refactoring `utils/legacy_module.py` - Completed and verified.
- ```
-
-Benefits:
-
-- Systematic refactoring planning & management
-- Documented strategy, decisions, & progress
-- Context & open question tracking
-- Improved team collaboration
-
-Memory Bank for Bug Fixing: User Login Bug
-
-
-Example Memory Bank Updates:
-
-
-* activeContext.md (Bug investigation & details):
- ```markdown
- # memory-bank/activeContext.md
-
- Current Task
- Debugging user login bug.
-
- Bug Details
- - Symptom: Login redirects back with "Invalid credentials" error.
- - Reported by: Users (support tickets #123, #124, #125).
- - Affected users: All users.
- - Environment: All browsers/platforms.
- - Last working version: v1.2.0 (suspect v1.2.1 regression).
-
- Reproduction Steps
- 1. Go to login page.
- 2. Enter valid username and password.
- 3. Submit login form.
- 4. Observe "Invalid credentials" error.
-
- Investigation Progress
- - [Initially empty]
- - [After investigation]: - Server logs OK. `auth/login.py` code review - OK, need debugger.
- - [Next step]: - Debug login process.
- ```
-
-* decisionLog.md (Debugging decisions & findings):
- ```markdown
- # memory-bank/decisionLog.md
-
- Bug Fix - User Login Bug - Decisions
-
- - [Date]: Decision: Debugged `auth/login.py` - password hashing.
-  - Findings: Password hashing logic correct, password comparison fails.
-
- - [Date]: Decision: Investigate password comparison & bcrypt version.
-  - Rationale: Suspect bcrypt incompatibility.
-  - Action: Revert bcrypt version (quick verification).
-
- - [Date]: Decision: Reverted bcrypt. Login - working.
-  - Findings: Reverting bcrypt fixed bug. Confirms bcrypt issue.
-  - Next Steps: Document bcrypt issue, long-term fix.
- ```
-
-* progress.md (Bug fix progress):
- ```markdown
- # memory-bank/progress.md
-
- Work Done
- - [Initially empty]
- - [After initial investigation]: - User login bug documented in `activeContext.md`. Debugging started.
- - [After identifying bcrypt issue]: - Root cause: bcrypt incompatibility. Temporary fix: bcrypt version revert.
-
- To Do
- - [Initially, bug fix tasks]
- - Investigate user login bug.
- - Identify root cause.
- - Implement temp fix (bcrypt revert).
- - Verify temp fix.
- - Investigate long-term bcrypt solution.
- - Implement long-term fix.
- - Regression tests.
- - Deploy fix.
- - Monitor login.
- - [Update tasks as needed]
-
- Current Status
- User login bug - Investigating - Root cause identified (bcrypt incompatibility). Temporary fix implemented/verified.
- - [Update status as bug fix progresses] - User login bug - Fix implemented and verified. - Temporary fix deployed. Monitoring.
- - [Upon completion] - User login bug - Fixed (long-term solution implemented). - Long-term fix deployed. Regression tests added.
- ```
-
-Benefits:
-
-- Systematic debugging
-- Documented bug details & decisions
-- Bug fix progress tracking
-- Context maintenance during debugging
-- Facilitated knowledge sharing
-
-Troubleshooting
-
-
-`[MEMORY BANK: ACTIVE]` Prefix Not Working
-
-
-Solution: Check Custom Instructions
-1. Verify custom instruction settings in VS Code: Ensure all custom instruction modules are correctly configured in "Roo Code Prompts" settings, especially "Mode-specific Custom Instructions/Code".
- * Detailed Verification Checklist:
-  - [ ] **Global Instructions:** Verify that you have copied the *entire content* of the file `roo-code-memory-bank/custom-instructions/global-instructions.md` and pasted it into the "Global Instructions" setting within the "Roo Code Prompts" section in VS Code settings.
-  - [ ] **Mode-specific Instructions/Architect:** Verify that you have copied the *entire content* of `roo-code-memory-bank/custom-instructions/mode-arch.md` and pasted it into the "Mode-specific Instructions/Architect" setting.
-  - [ ] **Mode-specific Instructions/Ask:** Verify that you have copied the *entire content* of `roo-code-memory-bank/custom-instructions/mode-ask.md` and pasted it into the "Mode-specific Instructions/Ask" setting.
-  - [ ] **Mode-specific Instructions/Code:** **Crucially**, verify that you have copied the *entire content* of `roo-code-memory-bank/custom-instructions/mode-code.md` and pasted it into the "Mode-specific Custom Instructions/Code" setting. **This specific setting is essential for the `[MEMORY BANK: ACTIVE]` prefix to function correctly in Code mode.**
- * Content Integrity: Double-check that you have copied the *complete content* of *each* specified file and pasted it into the *corresponding* settings area, ensuring no content was missed or corrupted during the copy-paste process.
-2. Save Settings: Verify that VS Code settings were saved after pasting instructions.
-3. Confirm Code Mode: Ensure you are in "Code" mode when using `[MEMORY BANK: ACTIVE]` prefix (check Roo Code chat interface).
-4. Check Prefix Syntax: Verify exact syntax: `[MEMORY BANK: ACTIVE]` (case-sensitive, spacing).
-
-
-Memory Bank Not Persisting After VS Code Restart
-
-
-Solution:
-1. Verify Memory Bank Initialization: Confirm that you have initiated the Memory Bank initialization process by switching to Architect mode in a new project (see "Getting Started" section). Check if the `memory-bank/` folder and essential files were created at the project root after following the initialization plan provided by Roo Code in Architect mode.
-2. Initial Mode Switch: After VS Code restart, switch to "Ask" or "Architect" mode *first* to trigger Memory Bank loading.
-3. Use "Update Memory Bank" (UMB) Command: Use "update memory bank" or **"UMB" as a standalone prompt** at session end to explicitly trigger the comprehensive Memory Bank update and prepare for the next session.
-4. Check File Paths: Verify `memory-bank/` folder is at project root; incorrect paths prevent Memory Bank access.
-
-
-.clinerules Rules Not Applied
-
-
-Solution:
-1. File Location: Ensure `.clinerules` files (`.clinerules`, `.clinerules-code`, etc.) are at project root, alongside `memory-bank/` folder.
-2. Syntax Check: Verify `.clinerules` file syntax; incorrect syntax may cause rules to be ignored.
-3. Mode Relevance: Note that `.clinerules-code`, `.clinerules-architect`, `.clinerules-ask` are mode-specific.
-4. Restart Roo Code (Rare):  Restart Roo Code in VS Code after major `.clinerules` changes to reload rules.
-
-
-Memory Bank Files Not Updating/Saving
-
-
-Solution:
-1. File Permissions: Check write permissions for `memory-bank/` folder and files.
-2. VS Code Errors: Check VS Code console for file saving errors.
-3. Conflicting Extensions: Temporarily disable extensions that might interfere with saving.
-4. Disk Space: Ensure sufficient free disk space is available.
-
-
-If issues persist, consult the Roo Code documentation or community support channels for further assistance.
-
-
-Revised Guidance on "Update Memory Bank" (UMB) Command:
-
-
-Although not strictly *required* after every break, using the **"Update Memory Bank" (UMB) command** (typing "update memory bank" or "UMB" as a standalone prompt in chat) is **highly recommended and should be considered a best practice** for robust session management and ensuring long-term project context preservation.  **Triggering UMB as a standalone prompt ensures a comprehensive update of all Memory Bank files, guaranteeing accurate and persistent project knowledge.**
-
-
-To visualize this session management process, refer to the workflow diagram below:
-
-
-Session Management Workflow (`update memory bank` Command)
-
-
-[//]: # (TODO: Replace ASCII diagram below with a visual flowchart image)
-[//]: # (Visual flowchart image should illustrate the Session Management Workflow with `update memory bank` command. A flowchart would be more user-friendly than the current ASCII diagram.)
-
-
-1. Start: Working on Project (Any Mode)
-2. Step 1: User makes changes to Memory Bank files (`productContext.md`, `activeContext.md`, `progress.md`, etc.)
-3. Step 2: Session End or Break?
- Yes: User initiates `update memory bank` command in chat
- No: Continue Working (Loop back to Step 1)
-4. Step 3: Roo Code saves current state of Memory Bank files
-5. Step 4: Memory Bank is prepared for next session
-6. End: Session Managed & Memory Bank Updated
-
-
-Think of it as:
-* `[MEMORY BANK: ACTIVE]` Prefix:  Ensures Roo uses *documented, reliable* project context in Code mode (important for memory resets).
-* `update memory bank` Command: "Save project knowledge" command. Use it to:
-  * Update Memory Bank at session end/breaks.
-  * Prepare for VS Code closure/workspace switch.
-  * Create project history checkpoints.
+1.  **Mode Switching Issues:**
+    - Verify `.roorules` files exist at project root and have correct syntax.
+    - Check mode trigger conditions in `.roorules` files.
+2.  **Memory Bank Problems:**
+    - Ensure `memory-bank/` directory exists at project root.
+    - Verify all core files (`productContext.md`, `activeContext.md`, `progress.md`, `decisionLog.md`, `issuesLog.md`, `gameDesignDoc.md`) exist within `memory-bank/`.
+    - Check file permissions if updates fail.
+3.  **Context Issues / Incorrect Behavior:**
+    - Use **UMB** command to force a full context refresh.
+    - Check `activeContext.md` for current task focus and failure counts.
+    - Review relevant Memory Bank files (`productContext.md`, `gameDesignDoc.md`, `issuesLog.md`) for accuracy.
+4.  **`[MEMORY BANK: ACTIVE]` Prefix Not Working:**
+    - Ensure custom instructions (global and mode-specific) are correctly copied into VS Code settings as per the main `README.md`. Pay special attention to the Code mode instructions.
+    - Verify you are in a mode that uses the prefix (Game PM, Game Programmer, etc.).
+5.  **Memory Bank Not Persisting After Restart:**
+    - Confirm Memory Bank was initialized correctly by Game PM.
+    - Switch to a Memory Bank-aware mode (Game PM, Game Programmer, etc.) first after restart.
+    - Use the **UMB** command before closing VS Code or switching projects.
+
+_(Refer to original README for detailed troubleshooting steps on custom instructions setup)_
+
+## Example Game Dev Memory Bank Updates
+
+_(Note: These are illustrative examples. Actual content will vary.)_
+
+**Scenario: Implementing Player Jump Mechanic**
+
+- **`gameDesignDoc.md` (Read by Game Programmer):**
+  ```markdown
+  ## Key Mechanics
+
+  - **Player Jump:**
+    - Input: Spacebar
+    - Height: 2 Units
+    - Air Control: Limited horizontal movement allowed mid-air.
+    - Double Jump: Not allowed in v1.0.
+  ```
+- **`activeContext.md` (Updated by Game Programmer):**
+  ```markdown
+  ## Current Focus
+
+  - [YYYY-MM-DD HH:MM:SS] - Active Task/Issue: Implement Player Jump (Ref: progress.md TASK-005)
+    - Current Mode Working: Game Programmer (Code)
+    - Consecutive Failed Attempts (Validation/Fix): 0
+
+  ## Recent Changes
+
+  - [YYYY-MM-DD HH:MM:SS] - Created `PlayerController.gd` script. Started jump logic implementation.
+  ```
+- **`progress.md` (Updated by Game Programmer):**
+  ```markdown
+  ## Current Tasks
+
+  - [YYYY-MM-DD HH:MM:SS] - TASK-005: Implement Player Jump Mechanic (In Progress)
+  ```
+- **(Later) `activeContext.md` (Updated by Game Programmer after implementation):**
+  ```markdown
+  ## Recent Changes
+
+  - [YYYY-MM-DD HH:MM:SS] - Completed initial implementation of player jump in `PlayerController.gd`. Ready for user testing prompt.
+  ```
+
+**Scenario: Debugging "Enemy Not Taking Damage" Bug**
+
+- **`issuesLog.md` (Read/Updated by Game Debugger):**
+  ```markdown
+  ---
+  ## Issue ID: BUG-002
+  *   **Reported:** YYYY-MM-DD HH:MM:SS by Game Tester
+  *   **Status:** Investigating
+  *   **Severity:** High
+  *   **Description:** Enemies are not taking damage when hit by player's standard attack. Health bar does not decrease.
+  *   **Reproduction Steps:** 1. Start Level 1. 2. Approach first enemy. 3. Use standard attack (Left Click). 4. Observe enemy health bar.
+  *   **Investigation Notes:**
+      *   [YYYY-MM-DD HH:MM:SS] - Assigned to Game Debugger. Starting investigation.
+      *   [YYYY-MM-DD HH:MM:SS] - Checked `EnemyAI.gd` `take_damage` function. Logic seems present.
+      *   [YYYY-MM-DD HH:MM:SS] - Verified collision layers/masks between player attack hitbox and enemy hurtbox. They are configured correctly.
+      *   [YYYY-MM-DD HH:MM:SS] - Added print statements. `take_damage` function is not being called on collision. Investigating signal connection in `PlayerAttack.gd`.
+      *   [YYYY-MM-DD HH:MM:SS] - Found missing signal connection in `PlayerAttack.gd` for the `hit_enemy` signal. This is likely the root cause.
+  *   **Resolution:** [Pending - Handing off to Game Programmer to connect signal]
+  *   **Validation:** [Pending]
+  ---
+  ```
+- **`activeContext.md` (Updated by Game Debugger):**
+  ```markdown
+  ## Current Focus
+
+  - [YYYY-MM-DD HH:MM:SS] - Active Task/Issue: Debug Enemy Damage Bug (Ref: issuesLog.md BUG-002)
+    - Current Mode Working: Game Debugger (Debug)
+    - Consecutive Failed Attempts (Validation/Fix): 0
+
+  ## Recent Changes
+
+  - [YYYY-MM-DD HH:MM:SS] - Identified root cause for BUG-002 as missing signal connection in `PlayerAttack.gd`. Documented in `issuesLog.md`. Preparing handoff to Game Programmer.
+  ```
+
+_(These examples illustrate how different modes interact with the specialized Memory Bank files during typical game development tasks.)_

@@ -4,14 +4,14 @@
 
 <br>
 
-## New install scripts for [Windows](https://github.com/GreatScottyMac/roo-code-memory-bank/blob/main/config/install.cmd) and [Linux/macOS](https://github.com/GreatScottyMac/roo-code-memory-bank/blob/main/config/install.sh) !!
+## New install scripts for [Windows](https://github.com/HappyTorso/roo-code-memory-bank-game-dev/blob/main/config/install.cmd) and [Linux/macOS](https://github.com/HappyTorso/roo-code-memory-bank-game-dev/blob/main/config/install.sh) !!
 
 # 🧠 Roo Code Memory Bank - Game Development Edition
 
 **Persistent Project Context for AI-Assisted Game Development**
 
 [![VS Code Extension](https://img.shields.io/badge/VS%20Code-Extension-blue.svg)](https://github.com/RooVetGit/Roo-Code)
-[![GitHub](https://img.shields.io/badge/View%20on-GitHub-lightgrey.svg)](https://github.com/GreatScottyMac/roo-code-memory-bank)
+[![GitHub](https://img.shields.io/badge/View%20on-GitHub-lightgrey.svg)](https://github.com/HappyTorso/roo-code-memory-bank-game-dev)
 
 </div>
 
@@ -59,12 +59,12 @@ graph LR
 2.  **Download and run the appropriate script** for your operating system using one of the commands below:
     - **Windows (Command Prompt or PowerShell):**
       ```cmd
-      curl -L -o install.cmd https://raw.githubusercontent.com/[YOUR_GITHUB_USERNAME_OR_ORG]/roo-code-memory-bank-game-dev/main/config/install.cmd && cmd /c install.cmd REM IMPORTANT: Replace placeholder!
+      curl -L -o install.cmd https://raw.githubusercontent.com/HappyTorso/roo-code-memory-bank-game-dev/main/config/install.cmd && cmd /c install.cmd
       ```
     - **Linux / macOS (bash/zsh):**
       `bash
-    curl -L -o install.sh https://raw.githubusercontent.com/[YOUR_GITHUB_USERNAME_OR_ORG]/roo-code-memory-bank-game-dev/main/config/install.sh && chmod +x install.sh && bash install.sh REM IMPORTANT: Replace placeholder!
-    `
+curl -L -o install.sh https://raw.githubusercontent.com/HappyTorso/roo-code-memory-bank-game-dev/main/config/install.sh && chmod +x install.sh && bash install.sh
+`
       The script will download the necessary game-dev adapted `.roorules-*`, `.roomodes`, and helper files into your project root, inject the workspace path into `.roorules-test`, and then attempt to delete the installation and helper scripts.
 
 #### b. Configure Roo Code Prompt Settings
@@ -434,14 +434,14 @@ Switch to Test mode when you need to:
 
 ## 📖 Documentation
 
-- [Developer Deep Dive](https://github.com/GreatScottyMac/roo-code-memory-bank/blob/main/developer-primer.md)
-- [Update Log](https://github.com/GreatScottyMac/roo-code-memory-bank/blob/main/updates.md)
+- [Developer Deep Dive](https://github.com/HappyTorso/roo-code-memory-bank-game-dev/blob/main/developer-primer.md)
+- [Update Log](https://github.com/HappyTorso/roo-code-memory-bank-game-dev/blob/main/updates.md)
 
 ---
 
 <div align="center">
 
-**[View on GitHub](https://github.com/GreatScottyMac/roo-code-memory-bank) • [Report Issues](https://github.com/GreatScottyMac/roo-code-memory-bank/issues) • [Get Roo Code](https://github.com/RooVetGit/Roo-Code)**
+**[View on GitHub](https://github.com/HappyTorso/roo-code-memory-bank-game-dev) • [Report Issues](https://github.com/HappyTorso/roo-code-memory-bank-game-dev/issues) • [Get Roo Code](https://github.com/RooVetGit/Roo-Code)**
 
 </div>
 
