@@ -63,15 +63,17 @@ graph TD
     T[Test Mode]
     D[Debug Mode]
     K[Ask Mode]
+    MS[MCP Web Search]
 
     A -- "Design specs & review triggers" --> C
     C -- "needs_architectural_changes, design_clarification_needed, pattern_violation_found, architectural_review_needed" --> A
     C -- "tests_need_update, coverage_check_needed, feature_ready_for_testing" --> T
     C -- "error_investigation_needed, performance_issue_found, system_analysis_required" --> D
     C -- "documentation_needed, implementation_explanation, pattern_documentation" --> K
+    K -- "Invoke web search" --> MS
+    MS -- "Provides external info" --> K
     T -- "Test feedback" --> C
     D -- "Bug fix readiness" --> C
-    K -- "Knowledge sharing" --> C
     D -- "Escalation (performance_fix_needed)" --> A
     K -- "Completion confirmation" --> C
     MB -- "Provides context" --> A
