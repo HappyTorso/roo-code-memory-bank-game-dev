@@ -45,6 +45,39 @@ graph LR
 - 🔧 **VS Code Integration**: Seamless development experience
 - ⚡ **Real-time Updates**: Continuous context synchronization
 
+## Detailed Mode Interactions
+
+Below is a detailed diagram that illustrates the nuanced interactions between the modes and the Memory Bank, explaining how each mode hands off tasks under specific conditions:
+
+- **Architect Mode:** Initiates design decisions and receives handoffs (e.g., for architectural changes or escalations).
+- **Code Mode:** Implements features and triggers handoffs based on conditions such as needs_architectural_changes, tests_need_update, error_investigation_needed, etc.
+- **Test Mode:** Provides test feedback and quality assessments.
+- **Debug Mode:** Investigates and escalates issues, handing off to Architect mode if needed.
+- **Ask Mode:** Clarifies documentation and code usage, then returns control to Code mode.
+
+```mermaid
+graph TD
+    MB[Memory Bank]
+    A[Architect Mode]
+    C[Code Mode]
+    T[Test Mode]
+    D[Debug Mode]
+    K[Ask Mode]
+
+    A -- "Design specs & review triggers" --> C
+    C -- "needs_architectural_changes, design_clarification_needed, pattern_violation_found, architectural_review_needed" --> A
+    C -- "tests_need_update, coverage_check_needed, feature_ready_for_testing" --> T
+    C -- "error_investigation_needed, performance_issue_found, system_analysis_required" --> D
+    C -- "documentation_needed, implementation_explanation, pattern_documentation" --> K
+    T -- "Test feedback" --> C
+    D -- "Bug fix readiness" --> C
+    K -- "Knowledge sharing" --> C
+    D -- "Escalation (performance_fix_needed)" --> A
+    K -- "Completion confirmation" --> C
+    MB -- "Provides context" --> A
+    A -- "Updates Memory Bank" --> MB
+```
+
 ## 🚀 Quick Start
 
 ### 1. Configure Custom Instructions
@@ -56,16 +89,14 @@ graph LR
 #### Download and Run Install Script
 
 1.  **Open your terminal** and navigate (`cd`) to your project's **root directory**.
-2.  **Download and run the appropriate script** for your operating system using one of the commands below:
-    - **Windows (Command Prompt or PowerShell):**
-      ```cmd
+2.  **Download and run the appropriate script** for your operating system using one of the commands below: - **Windows (Command Prompt or PowerShell):**
+    `cmd
       curl -L -o install.cmd https://raw.githubusercontent.com/HappyTorso/roo-code-memory-bank-game-dev/main/config/install.cmd && cmd /c install.cmd
-      ```
-    - **Linux / macOS (bash/zsh):**
-      `bash
+      ` - **Linux / macOS (bash/zsh):**
+    `bash
 curl -L -o install.sh https://raw.githubusercontent.com/HappyTorso/roo-code-memory-bank-game-dev/main/config/install.sh && chmod +x install.sh && bash install.sh
 `
-      The script will download the necessary game-dev adapted `.roorules-*`, `.roomodes`, and helper files into your project root, inject the workspace path into `.roorules-test`, and then attempt to delete the installation and helper scripts.
+    The script will download the necessary game-dev adapted `.roorules-*`, `.roomodes`, and helper files into your project root, inject the workspace path into `.roorules-test`, and then attempt to delete the installation and helper scripts.
 
 #### b. Configure Roo Code Prompt Settings
 
