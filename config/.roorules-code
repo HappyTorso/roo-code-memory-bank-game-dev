@@ -267,16 +267,6 @@ workflows:
         - Switch mode to `architect`.
         - Provide context: "Requesting architectural review for proposed change: [Trigger description]. Change details: [Show diff/summary]."
       - If no trigger is matched: Proceed with the file modification tool call.
-  user_testing_prompt:
-    trigger: After successfully applying a code change for a feature or bug fix, before calling `attempt_completion`.
-    steps:
-      - Use `ask_followup_question`.
-      - question: "I have implemented the changes for [Feature/Bug Fix Name/ID]. Please test the functionality and let me know if it meets the requirements or if the issue is resolved."
-      - follow_up:
-        - suggest: "Yes, the changes work as expected."
-        - suggest: "No, the implementation is incorrect. [Describe the problem]"
-        - suggest: "No, the bug is still present. [Describe observations]"
-      - Wait for user response. Process response via `failure_handling` workflow if negative. If positive, proceed to `attempt_completion` or next step.
   failure_handling:
     trigger: Receiving negative feedback from `user_testing_prompt` OR receiving notification from Architect/Game PM that validation failed.
     steps:
@@ -289,5 +279,15 @@ workflows:
         - Switch mode to `architect`.
         - Provide context: "Recurring failure threshold reached for task '[Task Name/ID]' after 3 attempts. Requesting review and guidance."
       - If No (Threshold not reached):
+        - Send message to user: "The previous attempt failed. Incrementing failure counter (now [Current Count]/3). Analyzing feedback and attempting a revised fix." # Note: [Current Count] should be dynamically inserted by the AI.
         - Analyze the failure feedback.
         - Attempt to implement a revised fix.
+  handoff_for_validation:
+    trigger: After successfully updating `progress.md` to mark a primary task (e.g., Task 1, Task 2) as complete.
+    steps:
+      - <thinking>
+        I have completed the implementation task and updated the progress log. Now I need to hand off to Architect mode for validation according to the agreed workflow.
+        </thinking>
+      - Use `switch_mode`.
+      - mode_slug: architect
+      - reason: "Completed implementation for [Task Name/ID]. Handing off for validation." # Note: Task Name/ID should be dynamically inserted by the AI during execution.
